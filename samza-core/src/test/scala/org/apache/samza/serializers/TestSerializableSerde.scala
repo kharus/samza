@@ -22,10 +22,10 @@ package org.apache.samza.serializers
 import org.junit.Assert._
 import org.junit.Test
 
-class TestSerializableTypeSerde {
+class TestSerializableSerde {
   @Test
   def testSerializableSerde {
-    val serde = new SerializableTypeSerde[String]
+    val serde = new SerializableSerde[String]
     assertNull(serde.toBytes(null))
     assertNull(serde.fromBytes(null))
     

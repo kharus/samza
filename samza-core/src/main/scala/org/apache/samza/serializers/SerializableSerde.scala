@@ -29,12 +29,12 @@ import org.apache.samza.config.Config
 /**
  * A serializer for Serializable
  */
-class SerializableTypeSerdeFactory[T <: java.io.Serializable] extends SerdeFactory[T] {
+class SerializableSerdeFactory[T <: java.io.Serializable] extends SerdeFactory[T] {
   def getSerde(name: String, config: Config): Serde[T] =
-    new SerializableTypeSerde[T]
+    new SerializableSerde[T]
 }
 
-class SerializableTypeSerde[T <: java.io.Serializable] extends Serde[T] {
+class SerializableSerde[T <: java.io.Serializable] extends Serde[T] {
   def toBytes(obj: T): Array[Byte] = if (obj != null) {
     val bos = new ByteArrayOutputStream
     val oos = new ObjectOutputStream(bos)
