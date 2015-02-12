@@ -38,8 +38,14 @@ class SerializableSerde[T <: java.io.Serializable] extends Serde[T] {
   def toBytes(obj: T): Array[Byte] = if (obj != null) {
     val bos = new ByteArrayOutputStream
     val oos = new ObjectOutputStream(bos)
-    oos.writeObject(obj)
-    oos.close
+
+    try {
+      oos.writeObject(obj)
+    }
+    finally {
+      oos.close()
+    }
+
     bos.toByteArray
   } else {
     null
@@ -48,7 +54,13 @@ class SerializableSerde[T <: java.io.Serializable] extends Serde[T] {
   def fromBytes(bytes: Array[Byte]): T = if (bytes != null) {
     val bis = new ByteArrayInputStream(bytes)
     val ois = new ObjectInputStream(bis)
-    ois.readObject.asInstanceOf[T]
+
+    try {
+      ois.readObject.asInstanceOf[T]
+    }
+    finally{
+      ois.close()
+    }
   } else {
     null.asInstanceOf[T]
   }
