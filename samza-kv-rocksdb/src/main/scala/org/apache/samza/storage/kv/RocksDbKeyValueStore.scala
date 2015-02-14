@@ -50,10 +50,11 @@ object RocksDbKeyValueStore extends Logging {
 
     val blockSize = storeConfig.getInt("rocksdb.block.size.bytes", 4096)
     val bloomBits = storeConfig.getInt("rocksdb.bloomfilter.bits", 10)
+    val bloomFilter = new BloomFilter(bloomBits)
     val table_options = new BlockBasedTableConfig()
     table_options.setBlockCacheSize(cacheSizePerContainer)
       .setBlockSize(blockSize)
-      .setFilterBitsPerKey(bloomBits)
+      .setFilter(bloomFilter)
 
     options.setTableFormatConfig(table_options)
     options.setCompactionStyle(
